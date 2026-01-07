@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech on Dimensions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kirang+Haerang&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ranga:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.font.im/css?family=Do+Hyeon" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/sub-style.css">
+    <link rel="stylesheet" href="../assets/css/video.css">
+    <link rel="icon" type="png" href="../assets/photo/logo.ico">
+    <style>
+        /* 整个容器 */
+        .content-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        /* 顶部描述区域 */
+        .content-header {
+            font-size: 24px;
+            font-weight: bold;
+            background-color: #f0f0f0; /* 灰色背景 */
+            padding: 15px;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* 主要内容容器 */
+        .content-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            height: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+        }
+        .content-header p{
+            text-align: left;
+            font-weight: lighter;
+        }
+
+        /* 模型和音频控件容器 */
+        .model-text-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);  /* 每行两个 */
+            gap: 30px;  /* 设置每个项目之间的间隙 */
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        /* 每个模型名称和音频控件 */
+        .model-row {
+            display: grid;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            margin: 0;
+            width: 100%;
+        }
+
+        /* 模型文本样式 */
+        .model-text {
+            font-size: 18px;
+            font-weight: bold;
+            /* margin-right: 10px; */
+        }
+
+        .audio-container {
+            display: flex;
+            justify-content: flex-start;
+        }
+        /* 音频控件 */
+        .audio-container audio {
+            width: 400px;
+            display: block;
+        }
+
+        /* 图片容器 */
+        .img-container2 img {
+            width: 100%;
+            max-width: 800px;  /* 图片放大 */
+            height: auto;
+            margin-top: 20px;
+        }
+
+        /* 切换按钮样式 */
+        .swiper-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .swiper-button:hover {
+            color: #ffffff;
+            background-color: rgba(58, 56, 56, 0.6);
+        }
+
+        .swiper-button-prev {
+            left: 10px;
+        }
+
+        .swiper-button-next {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="logo">LFS-Bench</h1>
+        <ul class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="mono.html" class="active">Per-Dimensions</a>
+            <a href="../Scenarios Page/mono.html">Per-Scenarios</a>
+            <a href="../Ablation.html">Ablation Study</a>
+        </ul>
+    </nav>
+
+    <div class="page-title-bg">
+        <div class="title-content">
+            <h1>Evaluations on Dimensions</h1>
+        </div>
+        <div class="follow">
+            <ul class="follow_list">
+                <li><a href="https://github.com/LFS-Bench/LFS-bench" target="_blank"><img src="../assets/photo/github.png" alt=""></a> <p style="color:black;">code</p></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sub-navbar">
+        <ul class="subnav-links">
+            <a href="mono.html" class="active">Speech</a>
+            <a href="two.html">Dialog</a>
+        </ul>
+    </div>
+
+    <main>
+        <div class="main-container">
+            <div class="content-area">
+                <section id="part1" class="content-section">
+                    <h1>Demo</h1>
+                    <div class="content-container">
+                        <div class="swiper-button swiper-button-prev">❮</div>
+                        <div class="content-right">
+                            <div class="content-header">
+                                <p>Reference Text</p>
+                            </div>
+                            <div class="model-text-container">
+                                <!-- 音频控件和文本的排版 -->
+                            </div>
+                            <div class="img-container2">
+                                <img src="../assets/photo/dimensions/mono_speaker/test.png" alt="Model Image">
+                            </div>
+                        </div>
+                        <div class="swiper-button swiper-button-next">❯</div>
+                    </div>
+                </section>
+
+                <section id="part2" class="content-section">
+                    <h1>Statistics</h1>
+                    <div class="img-container">
+                        <img src="../assets/photo/mono_table.png" alt="Statistics Image">
+                    </div>
+                    <div class="text-container4" style="text-align: left; margin-bottom: 5%;">
+                        <p><strong>Evaluation results of long-form TTS models across multi-dimensional metrics.</strong> Metrics cover Acoustics (Timbre/Reverb Consistency, Fidelity), Semantics (Content Accuracy, Prosodic Coherence), and Expressiveness (Richness, Hierarchy). CER and WER apply to Chinese and English, respectively. Closed-source models and open-source models are separately marked, with the best results in bold and the second best underlined.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const contentList = [
+            {
+                referenceText: '<strong>Referenced Text:</strong><br>'+
+                ' 我在这里讲的故事，换作别人可以写成一本书，然而我在这故事里不遗余力地活过，倾尽了所有德行，所以我仅仅将回忆记录下来。往事断断续续，支离破碎，但我不打算靠虚构事实连通捕捉。这种修饰铺陈会浇灭内心的热忱，最后一丝异趣也会化为乌有。父亲过世那年，我还不到十二岁，母亲不愿留在父亲生前行役的勒阿福尔，决定移居巴黎，以便我能更好地完成学业。她在卢森堡公园附近，租下一套小公寓。',
+                audio: [
+                    '../assets/wav/dimensions/mono_speaker/1.wav',
+                    '../assets/wav/dimensions/mono_speaker/2.wav',
+                    '../assets/wav/dimensions/mono_speaker/3.wav',
+                    '../assets/wav/dimensions/mono_speaker/4.wav',
+                    '../assets/wav/dimensions/mono_speaker/5.wav',
+                    '../assets/wav/dimensions/mono_speaker/6.wav',
+                    '../assets/wav/dimensions/mono_speaker/7.wav',
+                    '../assets/wav/dimensions/mono_speaker/8.wav'
+                ],
+                image: '../assets/photo/dimensions/mono_speaker/radar-1.png',
+                text: ['GLM-TTS', 'ZipVoice', 'FishSpeech', 'Minimax', 'SparkTTS', 'Seed-TTS', 'VibeVoice', 'Gemni']
+            },
+            {
+                referenceText: '<strong>Referenced Text:</strong><br>'+
+                'It\'s weird now though because I feel like guys are supposed to be two things. Like my wife, she wants me to be more manly, but also vulnerable. It\'s very confusing. I\'ll give you an example. Like the other day, she said she wanted me to be more aggressive in the bedroom. And then she yelled at me for not making the bed. That\'s two different guys. I\'m unlikable. I don\'t know if you guys can see my face. I have an asshole face. I look like all the presidents except one. And... Yeah, it\'s Jimmy Carter. And... Recently, somebody told me that I look like Matthew McConaughey. In Dallas Buyers Club. So that was... That hurt my feelings. I\'m a man, but I\'m not, you know? I\'m male, but I\'m not a man.',
+                audio: [
+                    '../assets/wav/dimensions/mono_speaker/9.wav',
+                    '../assets/wav/dimensions/mono_speaker/10.wav',
+                    '../assets/wav/dimensions/mono_speaker/11.wav',
+                    '../assets/wav/dimensions/mono_speaker/12.wav',
+                    '../assets/wav/dimensions/mono_speaker/13.wav',
+                    '../assets/wav/dimensions/mono_speaker/14.wav',
+                    '../assets/wav/dimensions/mono_speaker/15.wav',
+                    '../assets/wav/dimensions/mono_speaker/16.wav'
+                ],
+                image: '../assets/photo/dimensions/mono_speaker/radar-2.png',
+                text: ['IndexTTS2', 'F5TTS', 'CosyVoice3', 'MegaTTS3', 'CosyVoice2', 'Elenvenlabs', 'InworldTTS', 'OpenAI']
+            }
+        ];
+
+        let currentIndex = 0;
+        const contentContainer = document.querySelector('.content-container');
+        const modelTextContainer = document.querySelector('.model-text-container');
+        const referenceTextElement = document.querySelector('.content-header p');
+        const imageElement = document.querySelector('.img-container2 img');
+
+        function updateContent() {
+        const content = contentList[currentIndex];
+
+        // Use innerHTML to allow line breaks in referenceText
+        referenceTextElement.innerHTML = content.referenceText;
+
+        modelTextContainer.innerHTML = content.text.map((item, index) => {
+            return `
+                <div class="model-row">
+                    <p class="model-text">${item}</p>
+                    <div class="audio-container">
+                        <audio controls>
+                            <source src="${content.audio[index]}" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        imageElement.src = content.image;
+    }
+
+
+        document.querySelector('.swiper-button-prev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + contentList.length) % contentList.length;
+            updateContent();
+        });
+
+        document.querySelector('.swiper-button-next').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % contentList.length;
+            updateContent();
+        });
+
+        // Initialize content
+        updateContent();
+    </script>
+</body>
+</html>

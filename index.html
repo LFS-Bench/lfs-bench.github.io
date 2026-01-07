@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFS-Bench</title>
+    <!-- 添加 Kirang Haerang 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Kirang+Haerang&display=swap" rel="stylesheet">
+    <!-- 添加 Ranga 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ranga:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 添加 Montserrat 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 添加 Do Hyeon 字体 -->
+    <link href="https://fonts.font.im/css?family=Do+Hyeon" rel="stylesheet">
+    <!-- 确保 jQuery 在其他脚本之前加载 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    </script>
+    <script src="assets/js/basic.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="png" href="assets/photo/logo.ico">
+
+    <!-- 添加新的样式 -->
+    <style>
+        .index-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            padding-top: 30px;
+            padding-bottom: 20px;
+        }
+        .index-container a {
+            color: rgb(74, 183, 162);
+            margin-bottom: 20px;
+        }
+        .index-container a:hover {
+            color: rgb(26, 97, 83);
+        }
+</style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <h1 class="logo">LFS-Bench</h1>
+        <ul class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="Dimension Page/mono.html">Per-Dimensions</a>
+            <a href="Scenarios Page/mono.html">Per-Scenarios</a>
+            <a href="Ablation.html">Ablation Study</a>
+            <!-- <a href="Spatial music.html">Spatial MG</a>
+            <a href="Spatial sing.html">Spatial SVS</a> -->
+        </ul>
+    </nav>
+
+    <!-- 目录区 -->
+     <div class="page-title-bg">
+            <div class="title-content">
+                <h1>Comprehensive Benchmarking of Long-Form Speech Generation in Diverse Scenarios</h1>
+            </div>
+            <div class="text-content">
+                <p> <strong></strong> </p>
+            </div>
+             <div class="follow">
+                <ul class="follow_list">
+                    <li><a href="https://github.com/LFS-Bench/LFS-bench" target="_blank"><img src="assets/photo/github.png" alt=""></a> <p style="color:black;">code</p></li>
+                </ul>
+            </div>
+    </div>
+
+
+    <!-- 主要内容区 -->
+    <main>
+        <div class="main-container">  
+        <div class="content-area">
+            <section id="part1" class="content-section">
+                <h1>Abstract</h1>
+                <section id="part1.1">
+                    <p>Recent advances in speech generation have enabled high-fidelity synthesis, yet systematic evaluation of models under long-context conditions remains largely underexplored. A comprehensive evaluation benchmark for long-form speech is indispensable for two reasons: 1) existing test scenarios are often confined to limited domains, creating a significant gap with the diverse downstream applications; 2) existing metrics overlook critical long-text factors such as consistency and coherence, failing to generalize reliably. To this end, we propose LFS-Bench, a comprehensive benchmark that decomposes “long-form speech quality” into specific, disentangled dimensions. LFS-Bench has three key properties. 1) Rich speech scenarios: Focusing on long-form speech generation and multi-speaker dialog generation, LFS-Bench covers acoustics, semantics, and expressiveness challenges, and consists of 1,101 samples spanning 17 common speech scenarios; 2) Comprehensive evaluation dimensions: Along the acoustics, semantics, and expressiveness axes, LFS-Bench defines an automated evaluation protocol with seven metrics to provide a comprehensive, accurate, and standardized assessment; 3) Valuable insights: Through extensive experiments, we reveal that current models still struggle in highly expressive scenarios and exhibit a notable gap in consistency and hierarchy compared to real recordings.</p>
+                    <div class="img-container">
+                        <img src="assets/photo/teaser.jpg" alt="head">
+                    </div>
+                </section>
+            </section>
+
+            <section id="part1" class="content-section">
+                <h1>Introduction</h1>
+                <p><strong>To this end, we propose LFS-Bench, a comprehensive benchmark for long-form TTS models with three core properties:
+                    1) rich scenarios, 2) comprehensive evaluation, and 3) valuable insights.</strong></p>
+                <p><strong>First, </strong>LFS-Bench is defined over two fundamental long-form TTS paradigms: long-form speech generation and multi-speaker dialog generation. Starting from three core dimensions of long-form speech, namely acoustics, semantics, and expressiveness, LFS-Bench constructs 1,101 test samples spanning 17 downstream scenarios, providing broad coverage of long-form TTS applications.</p>
+                <p><strong>Second, </strong>our framework establishes an automatic evaluation protocol that employs a hierarchical approach to decomposing “long-form speech quality.” Transcending the traditional focus on Fidelity and Accuracy, we introduce novel dimensions tailored for long-form characteristics, specifically Acoustic Consistency, Prosodic Coherence, and Expressive Hierarchy. These metrics effectively address the limitations of existing protocols by quantifying temporal stability and expressive dynamics. Moreover, we conduct user studies to validate the reliability of these automated metrics, ensuring they serve as a scalable proxy for human perception.</p>
+                <p><strong>Finally, </strong>through extensive experiments on LFS-Bench, we derive critical insights detailed in Section 5. Our empirical results reveal that while current models rival human recordings in fidelity and accuracy, they exhibit substantial gaps in reverb consistency, prosodic coherence, and expressive hierarchy. Notably, performance deteriorates in highly expressive scenarios, underscoring the persisting challenges in modeling long-term dependencies and dynamic stylistic variations.</p>
+                <div class="img-container">
+                        <img src="assets/photo/introduction.png" alt="head">
+                </div>
+
+                <h1>Pipeline</h1>
+                <div class="img-container">
+                    <img src="assets/photo/pipline.png" alt="head">
+                </div>
+                <div class="text-container4" style="text-align: left; margin-bottom: 5%;">
+                    <p><strong>Overview of dataset construction and refinement.</strong> The process consists of four stages: 1) Formulating LFS-bench based on three core challenges; 2) Selecting 17 downstream speech scenarios aligned with these challenges; 3) Designing a hybrid data collection pipeline; 4) Performing data refinement on the constructed dataset.</p>
+                </div>
+
+                <h1>Statistics</h1>
+                <div class="img-container">
+                        <img src="assets/photo/statistics.png" alt="head">
+                </div>
+                <div class="text-container4" style="text-align: left; margin-bottom: 5%;">
+                    <p>The categorical statistics of LFS-Bench across five key dimensions: language, speaker numbers, core
+                    challenges, content topics and scenarios.</p>
+                <div class="img-container">
+                        <img src="assets/photo/text_length.png" alt="head">
+                </div>
+                <div class="text-container4" style="text-align: left; margin-bottom: 5%;">
+                    <p>The statistics of the text length distribution within LFS-Bench. The red dashed line indicates the average text length of English, and the green dashed line indicates the average text length of Chinese.</p>
+                </div>
+            </section>
+
+            <section id="part2" class="content-section">
+                <h1>Index</h1>
+                <div class="index-container">
+                    <h2>Per-Dimensions</h2>
+                    <a href="Dimension Page/mono.html">There is the link.</a>
+
+                    <h2>Per-Scenarios</h2>
+                    <a href="Scenarios Page/mono.html">There is the link.</a>
+
+                    <h2>Ablation Study</h2>
+                    <a href="Ablation.html">There is the link.</a>
+                </div>
+            </section>
+        </div>
+        </div>
+    </main>
+
+
+    <!-- 脚本区 -->
+    <script>
+    </script>
+</body>
+</html>

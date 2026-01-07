@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ablation Study</title>
+    <!-- 添加 Kirang Haerang 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Kirang+Haerang&display=swap" rel="stylesheet">
+    <!-- 添加 Ranga 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ranga:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 添加 Montserrat 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 添加 Do Hyeon 字体 -->
+    <link href="https://fonts.font.im/css?family=Do+Hyeon" rel="stylesheet">
+    <!-- 确保 jQuery 在其他脚本之前加载 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/sub-style.css">
+    <link rel="stylesheet" href="assets/css/audio.css">
+    <link rel="icon" type="png" href="assets/photo/logo.ico">
+
+    <!-- 添加新的样式 -->
+    <style>
+        .main-container {
+            padding: 20px;
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .content-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .data-container {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box; /* 确保内边距不导致内容溢出 */
+            width: 100%; /* 铺满父容器，防止超出 */
+        }
+
+        .data-container h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* 音频+文本容器的统一行容器：实现同一行、靠左对齐 */
+        .audio-text-row {
+            display: flex;
+            align-items: flex-start; /* 垂直居中对齐 */
+            justify-content: flex-start; /* 水平靠左对齐 */
+            margin-bottom: 40px;
+            width: 100%; /* 不超出父容器 */
+            box-sizing: border-box;
+            gap: 10px; /* 音频与文本容器之间的间距 */
+        }
+
+        /* 新增：音频文件名+音频控件容器 */
+        .audio-content {
+            display: flex;
+            flex-direction: flex-start; /* 文件名在上，音频在下 */
+            align-items: flex-start; /* 居中对齐（可改为flex-start靠左） */
+            flex-shrink: 0; /* 防止音频控件被挤压变形 */
+            min-width: 300px; /* 音频控件最小宽度，避免过窄 */
+            gap: 4px; /* 文件名与音频控件的间距 */
+        }
+
+        /* 新增：音频文件名样式 */
+        .audio-filename {
+            margin: 0; /* 清除默认间距 */
+            font-size: 14px;
+            color: #333;
+            text-align: center; /* 居中显示（可改为left靠左） */
+            white-space: nowrap; /* 防止文件名换行 */
+            overflow: hidden; /* 超出部分隐藏 */
+            text-overflow: ellipsis; /* 超出显示省略号 */
+            width: 100%; /* 铺满音频容器 */
+        }
+
+        .audio-content audio {
+            flex-shrink: 0; /* 防止音频控件被挤压变形 */
+            min-width: 180px; /* 音频控件最小宽度，避免过窄 */
+            width: 100%; /* 音频控件铺满父容器 */
+        }
+
+        /* 文本单独容器：仅此处有灰色背景 */
+        .text-box {
+            background-color: #f4f4f4; /* 灰色背景 */
+            padding: 8px 12px; /* 文本内边距，可调整 */
+            border-radius: 6px; /* 圆角优化 */
+            flex: 1; /* 占满剩余空间，保持布局紧凑 */
+            box-sizing: border-box;
+        }
+
+        .text-box p {
+            margin: 0; /* 清除默认间距 */
+            text-align: left; /* 文本靠左 */
+            line-height: 1.4; /* 行高优化，提升可读性 */
+        }
+
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 包裹所有行容器：仅作为布局容器，无背景色 */
+        .audio-text-wrapper {
+            padding: 10px 0; /* 上下内边距，优化整体间距 */
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <h1 class="logo">LFS-Bench</h1>
+        <ul class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="Dimension Page/mono.html">Per-Dimensions</a>
+            <a href="Scenarios Page/mono.html">Per-Scenarios</a>
+            <a href="Ablation.html" class="active">Ablation Study</a>
+            <!-- <a href="Spatial music.html">Spatial MG</a>
+            <a href="Spatial sing.html">Spatial SVS</a> -->
+        </ul>
+    </nav>
+
+    <!-- 目录区 -->
+    <div class="page-title-bg">
+        <div class="title-content">
+            <h1>Ablation Study on Text Length</h1>
+            <!-- <div class="text-content">
+                <p><strong>Spatial TTS (Text-to-Speech) </strong>aims to produce high-quality speech enriched with spatial cues, thereby enhancing immersion and realism in AR/VR.</p>
+            </div> -->
+        </div>
+        <div class="follow">
+            <ul class="follow_list">
+                <li><a href="https://github.com/LFS-Bench/LFS-bench" target="_blank"><img src="assets/photo/github.png" alt=""></a> <p style="color:black;">code</p></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主要内容区 -->
+    <main>
+        <div class="main-container">
+            <!-- Demo Section -->
+            <div class="content-area">
+                <div class="content-container">
+                    <div class="img-container">
+                        <img src="assets/photo/8_line_chart.jpg" alt="head">
+                    </div>
+                </div>
+                <div class="text-container4" style="text-align: left; margin-bottom: 5%;">
+                    <p><strong>Results on Sequence Length. </strong>The horizontal axis represents the number of sentences in the text.</p>
+                </div>
+            </div>
+
+            <!-- 5个容器，全部在 content-area 中 -->
+            <div class="content-area">
+                <div class="hint-container">
+                    <p>Spark-TTS</p>
+                </div>
+                <!-- 容器1 -->
+                <div class="data-container">
+                    <!-- 包裹所有音频+文本行的容器：无背景色 -->
+                    <div class="audio-text-wrapper">
+                        <!-- 每行：音频容器（文件名+音频） + 单独灰色文本容器 -->
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/sparktts/1.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text:</strong> 啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/sparktts/2.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text:</strong> 啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/sparktts/3.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text:</strong> 啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗?</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/sparktts/4.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text:</strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/sparktts/5.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text:</strong> 啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊，我咋辩证啊,说实话我真的一点都不通透，因为我学完哲学吧，跟大家学任何专业一样，还是要出来找工作打工的。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/sparktts/6.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text:</strong> 啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊，我咋辩证啊，说实话我真的一点都不通透，因为我学完哲学吧，跟大家学任何专业一样，还是要出来找工作打工的，我发现现实生活跟我学的不一样的时候，我只会更加矛盾。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/sparktts/7.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text:</strong> 啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊，我咋辩证啊，说实话我真的一点都不通透，因为我学完哲学吧，跟大家学任何专业一样，还是要出来找工作打工的，我发现现实生活跟我学的不一样的时候，我只会更加矛盾。我那时候找工作的时候，我上午还在上课, 我学那个资本论, 什么资本会无情的压榨你，剥削你的剩余价值, 资本来到世间，从头到脚都流着血跟肮脏的东西。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/sparktts/8.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text:</strong> 啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊，我咋辩证啊，说实话我真的一点都不通透，因为我学完哲学吧，跟大家学任何专业一样，还是要出来找工作打工的，我发现现实生活跟我学的不一样的时候，我只会更加矛盾。我那时候找工作的时候，我上午还在上课，我学那个资本论，什么资本会无情的压榨你，剥削你的剩余价值，资本来到世间，从头到脚都流着血跟肮脏的东西，我下午去面试的时候，往那一坐，我可以加班，什么亚里士多德呀，多劳才能多得。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-area">
+                <!-- 容器2 -->
+                 <div class="hint-container">
+                    <p>MegaTTS-3</p>
+                </div>
+                <div class="data-container">
+                    <div class="audio-text-wrapper">
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_1/MegaTTS3/1.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Hi, I'm Rose Rimmler. I'm filling in for Wendy Zuckerman. And this is Science versus.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_1/MegaTTS3/2.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Hi, I'm Rose Rimmler. I'm filling in for Wendy Zuckerman. And this is Science versus. This is the show that pits facts against filling the world with AI data centers.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_1/MegaTTS3/3.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Hi, I'm Rose Rimmler. I'm filling in for Wendy Zuckerman. And this is Science versus. This is the show that pits facts against filling the world with AI data centers. Today on the show AI and the Environment, Lately we've been hearing a lot about how power hungry AI is.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_1/MegaTTS3/4.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Hi, I'm Rose Rimmler. I'm filling in for Wendy Zuckerman. And this is Science versus. This is the show that pits facts against filling the world with AI data centers. Today on the show AI and the Environment, Lately we've been hearing a lot about how power hungry AI is. AI uses a ton of electricity, straining the nation's aging power grid and creating more planet-warming emissions, and how thirsty it is.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_1/MegaTTS3/5.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Hi, I'm Rose Rimmler. I'm filling in for Wendy Zuckerman. And this is Science versus. This is the show that pits facts against filling the world with AI data centers. Today on the show AI and the Environment, Lately we've been hearing a lot about how power hungry AI is. AI uses a ton of electricity, straining the nation's aging power grid and creating more planet-warming emissions, and how thirsty it is. The amount of water that AI uses is astonishing.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_1/MegaTTS3/6.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Hi, I'm Rose Rimmler. I'm filling in for Wendy Zuckerman. And this is Science versus. This is the show that pits facts against filling the world with AI data centers. Today on the show AI and the Environment, Lately we've been hearing a lot about how power hungry AI is. AI uses a ton of electricity, straining the nation's aging power grid and creating more planet-warming emissions, and how thirsty it is. The amount of water that AI uses is astonishing. Asking ChatGPT to write one e-mail is the equivalent of pouring out an entire water bottle.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_1/MegaTTS3/7.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Hi, I'm Rose Rimmler. I'm filling in for Wendy Zuckerman. And this is Science versus. This is the show that pits facts against filling the world with AI data centers. Today on the show AI and the Environment, Lately we've been hearing a lot about how power hungry AI is. AI uses a ton of electricity, straining the nation's aging power grid and creating more planet-warming emissions, and how thirsty it is. The amount of water that AI uses is astonishing. Asking ChatGPT to write one e-mail is the equivalent of pouring out an entire water bottle. Let that sink in. And the major culprit here is the data centers, warehouses full of computer servers that AI needs to function.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_1/MegaTTS3/8.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Hi, I'm Rose Rimmler. I'm filling in for Wendy Zuckerman. And this is Science versus. This is the show that pits facts against filling the world with AI data centers. Today on the show AI and the Environment, Lately we've been hearing a lot about how power hungry AI is. AI uses a ton of electricity, straining the nation's aging power grid and creating more planet-warming emissions, and how thirsty it is. The amount of water that AI uses is astonishing. Asking ChatGPT to write one e-mail is the equivalent of pouring out an entire water bottle. Let that sink in. And the major culprit here is the data centers, warehouses full of computer servers that AI needs to function. Tech companies are trying to build more of these data centers, but people who live nearby are protesting them, often saying that they're going to compete for their electricity and use up their water.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-area">
+                <!-- 容器3 -->
+                 <div class="hint-container">
+                    <p>CosyVoice2</p>
+                </div>
+                <div class="data-container">
+                    <div class="audio-text-wrapper">
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_2/cosyvoice2/1.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Are there any other parents here who have struggled to get your kids out the door on time? Yeah, so you know, right?</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_2/cosyvoice2/2.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Are there any other parents here who have struggled to get your kids out the door on time? Yeah, so you know, right? It's like herding kittens. My wife and I would start nagging our three daughters long before it was time to leave, but that obviously wasn't working because we were always late for everything.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_2/cosyvoice2/3.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Are there any other parents here who have struggled to get your kids out the door on time? Yeah, so you know, right? It's like herding kittens. My wife and I would start nagging our three daughters long before it was time to leave, but that obviously wasn't working because we were always late for everything. But one day was a complete gong show. Five minutes before we needed to leave for an important event, I found my oldest daughter on the porch reading, my middle daughter was playing the piano, and my youngest daughter wasn't wearing any socks.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_2/cosyvoice2/4.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Are there any other parents here who have struggled to get your kids out the door on time? Yeah, so you know, right? It's like herding kittens. My wife and I would start nagging our three daughters long before it was time to leave, but that obviously wasn't working because we were always late for everything. But one day was a complete gong show. Five minutes before we needed to leave for an important event, I found my oldest daughter on the porch reading, my middle daughter was playing the piano, and my youngest daughter wasn't wearing any socks. So I told them, \"Stop reading, stop playing the piano, put on your socks, and everybody get in the car.\"</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_2/cosyvoice2/5.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Are there any other parents here who have struggled to get your kids out the door on time? Yeah, so you know, right? It's like herding kittens. My wife and I would start nagging our three daughters long before it was time to leave, but that obviously wasn't working because we were always late for everything. But one day was a complete gong show. Five minutes before we needed to leave for an important event, I found my oldest daughter on the porch reading, my middle daughter was playing the piano, and my youngest daughter wasn't wearing any socks. So I told them, \"Stop reading, stop playing the piano, put on your socks, and everybody get in the car.\" Five minutes later, nobody was in the car. On my way to help my youngest daughter wear her socks, I noticed my oldest daughter was still on the porch reading.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_2/cosyvoice2/6.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Are there any other parents here who have struggled to get your kids out the door on time? Yeah, so you know, right? It's like herding kittens. My wife and I would start nagging our three daughters long before it was time to leave, but that obviously wasn't working because we were always late for everything. But one day was a complete gong show. Five minutes before we needed to leave for an important event, I found my oldest daughter on the porch reading, my middle daughter was playing the piano, and my youngest daughter wasn't wearing any socks. So I told them, \"Stop reading, stop playing the piano, put on your socks, and everybody get in the car.\" Five minutes later, nobody was in the car. On my way to help my youngest daughter wear her socks, I noticed my oldest daughter was still on the porch reading. Now I'm starting to lose it. Her response: \"I didn't hear you.\" But before I could say a word, I heard the piano start playing again.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_2/cosyvoice2/7.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Are there any other parents here who have struggled to get your kids out the door on time? Yeah, so you know, right? It's like herding kittens. My wife and I would start nagging our three daughters long before it was time to leave, but that obviously wasn't working because we were always late for everything. But one day was a complete gong show. Five minutes before we needed to leave for an important event, I found my oldest daughter on the porch reading, my middle daughter was playing the piano, and my youngest daughter wasn't wearing any socks. So I told them, \"Stop reading, stop playing the piano, put on your socks, and everybody get in the car.\" Five minutes later, nobody was in the car. On my way to help my youngest daughter wear her socks, I noticed my oldest daughter was still on the porch reading. Now I'm starting to lose it. Her response: \"I didn't hear you.\" But before I could say a word, I heard the piano start playing again. And that's the story of how I lost my mind. The end. I just wanted my daughters to take a little ownership for getting out the door in time. But then I remembered something I teach management teams: You can't inspire accountability in others until you model it yourself. That's when I realized I wasn't taking any accountability for this problem.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_2/cosyvoice2/8.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>Are there any other parents here who have struggled to get your kids out the door on time? Yeah, so you know, right? It's like herding kittens. My wife and I would start nagging our three daughters long before it was time to leave, but that obviously wasn't working because we were always late for everything. But one day was a complete gong show. Five minutes before we needed to leave for an important event, I found my oldest daughter on the porch reading, my middle daughter was playing the piano, and my youngest daughter wasn't wearing any socks. So I told them, \"Stop reading, stop playing the piano, put on your socks, and everybody get in the car.\" Five minutes later, nobody was in the car. On my way to help my youngest daughter wear her socks, I noticed my oldest daughter was still on the porch reading. Now I'm starting to lose it. Her response: \"I didn't hear you.\" But before I could say a word, I heard the piano start playing again. And that's the story of how I lost my mind. The end. I just wanted my daughters to take a little ownership for getting out the door in time. But then I remembered something I teach management teams: You can't inspire accountability in others until you model it yourself. That's when I realized I wasn't taking any accountability for this problem. I was blaming it totally on my daughters. So I tried a different approach and looked in the mirror. What was I doing or not doing that may be contributing to this problem? Then it hit me. I knew when they needed to be finished with breakfast, dressed, groomed, and ready to leave. But did they? I also knew what time it was. But there were no clocks in their bathrooms. Which I discovered is like a different dimension for my girls where time ceases to exist.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-area">
+                <div class="hint-container">
+                    <p>F5TTS</p>
+                </div>
+                <!-- 容器4 -->
+                <div class="data-container">
+                    <div class="audio-text-wrapper">
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_3/F5TTS/1.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>We really deeply loved each other. The way it ended was so pleasant that I think I can talk about it without crying right now.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_3/F5TTS/2.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>We really deeply loved each other. The way it ended was so pleasant that I think I can talk about it without crying right now. It's only been a week, and I can talk about it because it was mutual.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_3/F5TTS/3.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>We really deeply loved each other. The way it ended was so pleasant that I think I can talk about it without crying right now. It's only been a week, and I can talk about it because it was mutual. We communicated, got closure, and decided to remain friends.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_3/F5TTS/4.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>We really deeply loved each other. The way it ended was so pleasant that I think I can talk about it without crying right now. It's only been a week, and I can talk about it because it was mutual. We communicated, got closure, and decided to remain friends. It was as perfect a breakup as possible, but it's still tough. So, what does this mean for me?</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_3/F5TTS/5.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>We really deeply loved each other. The way it ended was so pleasant that I think I can talk about it without crying right now. It's only been a week, and I can talk about it because it was mutual. We communicated, got closure, and decided to remain friends. It was as perfect a breakup as possible, but it's still tough. So, what does this mean for me? Well, now I'm single, and being single is interesting because I haven't been single much in my life since I was 17.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_3/F5TTS/6.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>We really deeply loved each other. The way it ended was so pleasant that I think I can talk about it without crying right now. It's only been a week, and I can talk about it because it was mutual. We communicated, got closure, and decided to remain friends. It was as perfect a breakup as possible, but it's still tough. So, what does this mean for me? Well, now I'm single, and being single is interesting because I haven't been single much in my life since I was 17. I've dated pretty consistently, with a few boyfriends, and very short breaks in between, so I haven't really been single. It's a little daunting to be in this place again.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_3/F5TTS/7.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>We really deeply loved each other. The way it ended was so pleasant that I think I can talk about it without crying right now. It's only been a week, and I can talk about it because it was mutual. We communicated, got closure, and decided to remain friends. It was as perfect a breakup as possible, but it's still tough. So, what does this mean for me? Well, now I'm single, and being single is interesting because I haven't been single much in my life since I was 17. I've dated pretty consistently, with a few boyfriends, and very short breaks in between, so I haven't really been single. It's a little daunting to be in this place again. This time, I know I should be single longer than just two or three months — maybe for a year.</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_en_3/F5TTS/8.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>We really deeply loved each other. The way it ended was so pleasant that I think I can talk about it without crying right now. It's only been a week, and I can talk about it because it was mutual. We communicated, got closure, and decided to remain friends. It was as perfect a breakup as possible, but it's still tough. So, what does this mean for me? Well, now I'm single, and being single is interesting because I haven't been single much in my life since I was 17. I've dated pretty consistently, with a few boyfriends, and very short breaks in between, so I haven't really been single. It's a little daunting to be in this place again. This time, I know I should be single longer than just two or three months — maybe for a year. I feel it in my gut, and I know it's right, but it's daunting.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-area">
+                <div class="hint-container">
+                    <p>VibeVoice</p>
+                </div>
+                <!-- 容器5 -->
+                <div class="data-container">
+                    <div class="audio-text-wrapper">
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/vibevoice/1.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/vibevoice/2.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/vibevoice/3.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗？</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/vibevoice/4.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/vibevoice/5.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊，我咋辩证啊,说实话我真的一点都不通透，因为我学完哲学吧，跟大家学任何专业一样，还是要出来找工作打工的。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/vibevoice/6.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊，我咋辩证啊，说实话我真的一点都不通透，因为我学完哲学吧，跟大家学任何专业一样，还是要出来找工作打工的，我发现现实生活跟我学的不一样的时候，我只会更加矛盾。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/vibevoice/7.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊，我咋辩证啊，说实话我真的一点都不通透，因为我学完哲学吧，跟大家学任何专业一样，还是要出来找工作打工的，我发现现实生活跟我学的不一样的时候，我只会更加矛盾。我那时候找工作的时候，我上午还在上课, 我学那个资本论, 什么资本会无情的压榨你，剥削你的剩余价值, 资本来到世间，从头到脚都流着血跟肮脏的东西。</p>
+                            </div>
+                        </div>
+                        <div class="audio-text-row">
+                            <div class="audio-content">
+                                
+                                <audio controls>
+                                    <source src="assets/wav/ablation/results_zh_2/vibevoice/8.wav" type="audio/wav">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                            <div class="text-box">
+                                <p><strong>Refrence text: </strong>啊我是去年刚刚大学毕业的，我这个大学专业学的是哲学啊，大家一般听到那个反应就是哇，那就是有文化没工作，这个我读哲学确实是不太好找工作，而且我身边有些朋友还会调侃我，说，找不到工作怎么了，你们学哲学的人不是都很通透吗，你虽然找不到工作，但是你可以辩证地看待这个问题啊，我咋辩证啊，说实话我真的一点都不通透，因为我学完哲学吧，跟大家学任何专业一样，还是要出来找工作打工的，我发现现实生活跟我学的不一样的时候，我只会更加矛盾。我那时候找工作的时候，我上午还在上课，我学那个资本论，什么资本会无情的压榨你，剥削你的剩余价值，资本来到世间，从头到脚都流着血跟肮脏的东西，我下午去面试的时候，往那一坐，我可以加班，什么亚里士多德呀，多劳才能多得。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 脚本区：自动提取并显示音频文件名 -->
+    <script>
+        // 等待DOM加载完成后执行
+        $(document).ready(function() {
+            // 遍历所有音频容器中的音频元素
+            $('.audio-content').each(function() {
+                var $this = $(this);
+                // 获取音频source的src属性
+                var audioSrc = $this.find('audio source').attr('src');
+                if (audioSrc) {
+                    // 1. 提取路径中的最后一个部分（带后缀的文件名）
+                    var fullFilename = audioSrc.split('/').pop();
+                    // 2. 解码URL编码（如%23转为#）
+                    var decodedFilename = decodeURIComponent(fullFilename);
+                    // 3. 去除文件后缀（支持带多个点的文件名，如test.v1.wav）
+                    var filenameWithoutExt = decodedFilename.split('.').slice(0, -1).join('.');
+                    // 4. 将文件名设置到对应的p标签中
+                    $this.find('.audio-filename').text(filenameWithoutExt);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

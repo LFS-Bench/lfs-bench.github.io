@@ -1,0 +1,115 @@
+        /* 原有样式保留 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .video-container {
+            position: relative;
+            max-width: 1200px;
+            height: 500px;
+            margin: 30px auto;
+            background: white;
+            overflow: hidden;
+            align-items: center;
+        }
+
+        .swiper-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            transition: all 0.3s;
+            transition: opacity 0.3s;
+        }
+
+        .swiper-button:hover {
+            background: rgba(0,0,0,0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .swiper-button-prev {
+            left: 20px;
+        }
+
+        .swiper-button-next {
+            right: 20px;
+        }
+
+        .video-right {
+            position: relative;
+            width: 80%;
+            height: 105%;
+        }
+
+        .prism-big-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px !important;
+            height: 60px !important;
+            background: rgba(0,0,0,0.6) !important;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+        }
+
+        .prism-big-play-btn::after {
+            content: '';
+            position: absolute;
+            left: 52%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-width: 12px 0 12px 20px;
+            border-style: solid;
+            border-color: transparent transparent transparent #fff;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 新增分页器样式 */
+        .swiper-pagination {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 12px;
+        }
+
+        .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #fff;
+        }
+
+        .text-container {
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #e8f6f8;
+            margin-top: 20px;
+        }

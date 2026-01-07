@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech on Dimensions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kirang+Haerang&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ranga:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.font.im/css?family=Do+Hyeon" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/sub-style.css">
+    <link rel="stylesheet" href="../assets/css/video.css">
+    <link rel="icon" type="png" href="../assets/photo/logo.ico">
+    <style>
+        /* 整个容器 */
+        .content-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        /* 顶部描述区域 */
+        .content-header {
+            font-size: 24px;
+            font-weight: bold;
+            background-color: #f0f0f0; /* 灰色背景 */
+            padding: 15px;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* 主要内容容器 */
+        .content-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            height: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+        }
+        .content-header p{
+            text-align: left;
+            font-weight: lighter;
+        }
+
+        /* 模型和音频控件容器 */
+        .model-text-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);  /* 每行两个 */
+            gap: 30px;  /* 设置每个项目之间的间隙 */
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        /* 每个模型名称和音频控件 */
+        .model-row {
+            display: grid;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            margin: 0;
+            width: 100%;
+        }
+
+        /* 模型文本样式 */
+        .model-text {
+            font-size: 18px;
+            font-weight: bold;
+            /* margin-right: 10px; */
+        }
+
+        .audio-container {
+            display: flex;
+            justify-content: flex-start;
+        }
+        /* 音频控件 */
+        .audio-container audio {
+            width: 400px;
+            display: block;
+        }
+
+        /* 图片容器 */
+        .img-container2 img {
+            width: 100%;
+            max-width: 800px;  /* 图片放大 */
+            height: auto;
+            margin-top: 20px;
+        }
+
+        /* 切换按钮样式 */
+        .swiper-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .swiper-button:hover {
+            color: #ffffff;
+            background-color: rgba(58, 56, 56, 0.6);
+        }
+
+        .swiper-button-prev {
+            left: 10px;
+        }
+
+        .swiper-button-next {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="logo">LFS-Bench</h1>
+        <ul class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="mono.html" class="active">Per-Dimensions</a>
+            <a href="../Scenarios Page/mono.html">Per-Scenarios</a>
+            <a href="../Ablation.html">Ablation Study</a>
+        </ul>
+    </nav>
+
+    <div class="page-title-bg">
+        <div class="title-content">
+            <h1>Evaluations on Dimensions</h1>
+        </div>
+        <div class="follow">
+            <ul class="follow_list">
+                <li><a href="https://github.com/LFS-Bench/LFS-bench" target="_blank"><img src="../assets/photo/github.png" alt=""></a> <p style="color:black;">code</p></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sub-navbar">
+        <ul class="subnav-links">
+            <a href="mono.html">Speech</a>
+            <a href="two.html" class="active">Dialog</a>
+        </ul>
+    </div>
+
+    <main>
+        <div class="main-container">
+            <div class="content-area">
+                <section id="part1" class="content-section">
+                    <h1>Demo</h1>
+                    <div class="content-container">
+                        <div class="swiper-button swiper-button-prev">❮</div>
+                        <div class="content-right">
+                            <div class="content-header">
+                                <!-- 第一处修改：替换为格式化后的英文文本，满足换行要求 -->
+                                <p>Referenced Text: <br>Speaker1: Worldwide. This is Bloomberg Surveillance alongside Lisa Brambitz together with Anne-Marie Hauden. I'm Jonathan Farrow. Your equity market on the S&P 500 bouncing back from the biggest one-day loss since September. Equity futures on the S&P 500 positive here by a third of one percent. Brammo, pushback from Chairman Powell. Big earnings coming a little bit later.<br><br>Speaker2: Yeah, basically taking March off the table, maybe, or making it less likely. The market's responding to that. Big tech very much front and focus. And the real question to me is, do we get a more motley picture with the likes of Meta, with the likes of Apple and Amazon reporting after the bell than we did with Microsoft and Google, which put out solid earnings, but people just weren't impressed. Before we talk about tech, we need to talk about the financials. We seem to be at the face of the cycle where we talk about banks we've never heard of before. One in Japan, another in New York. Commercial real estate is something that's been hanging over this market for a long, long time. Are we starting to see a little bit of a reality check on that side of things? So the reality versus the fiction, the fiction that some people might say is, is this another crisis in the making in regional banks? And most people say no. New York Community Bank Corp was an idiosyncratic story with respect to the mix of holdings. That said, you have serious</p>
+                            </div>
+                            <div class="model-text-container">
+                                <!-- 音频控件和文本的排版 -->
+                            </div>
+                            <div class="img-container2">
+                                <img src="../assets/photo/dimensions/two_speaker/test.png" alt="Model Image">
+                            </div>
+                        </div>
+                        <div class="swiper-button swiper-button-next">❯</div>
+                    </div>
+                </section>
+
+                <section id="part2" class="content-section">
+                    <h1>Statistics</h1>
+                    <div class="img-container">
+                        <img src="../assets/photo/mono_table.png" alt="Statistics Image">
+                    </div>
+                    <div class="text-container4" style="text-align: left; margin-bottom: 5%;">
+                        <p><strong>Evaluation results of long-form TTS models across multi-dimensional metrics.</strong> Metrics cover Acoustics (Timbre/Reverb Consistency, Fidelity), Semantics (Content Accuracy, Prosodic Coherence), and Expressiveness (Richness, Hierarchy). CER and WER apply to Chinese and English, respectively. Closed-source models and open-source models are separately marked, with the best results in bold and the second best underlined.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const contentList = [
+            {
+                // 第二处修改：替换contentList里的referenceText，和页面初始显示的文本保持一致
+                // 修改 contentList 中的 referenceText 使其支持分行
+                referenceText: '<strong>Referenced Text:</strong><br>' + 
+                'Speaker1: Worldwide. This is Bloomberg Surveillance alongside Lisa Brambitz together with Anne-Marie Hauden. I\'m Jonathan Farrow. Your equity market on the S&P 500 bouncing back from the biggest one-day loss since September. Equity futures on the S&P 500 positive here by a third of one percent. Brammo, pushback from Chairman Powell. Big earnings coming a little bit later.<br>' + 
+                'Speaker2: Yeah, basically taking March off the table, maybe, or making it less likely. The market\'s responding to that. Big tech very much front and focus. And the real question to me is, do we get a more motley picture with the likes of Meta, with the likes of Apple and Amazon reporting after the bell than we did with Microsoft and Google, which put out solid earnings, but people just weren\'t impressed. Before we talk about tech, we need to talk about the financials. We seem to be at the face of the cycle where we talk about banks we\'ve never heard of before. One in Japan, another in New York. Commercial real estate is something that\'s been hanging over this market for a long, long time. Are we starting to see a little bit of a reality check on that side of things? So the reality versus the fiction, the fiction that some people might say is, is this another crisis in the making in regional banks? And most people say no. New York Community Bank Corp was an idiosyncratic story with respect to the mix of holdings. That said, you have serious</strong>',
+                audio: [
+                    '../assets/wav/dimensions/two_speaker/1.wav',
+                    '../assets/wav/dimensions/two_speaker/2.wav',
+                    '../assets/wav/dimensions/two_speaker/3.wav',
+                    '../assets/wav/dimensions/two_speaker/4.wav',
+                    '../assets/wav/dimensions/two_speaker/5.wav',
+                ],
+                image: '../assets/photo/dimensions/two_speaker/radar-1.png',
+                text: ['Gemini', 'Elevenlabs', 'MOSS-TTSD', 'FireRedTTS2', 'MoonCast']
+            },
+            {
+                referenceText: '<strong>Referenced Text:</strong><br>' +
+                'Speaker1: 又进入到一个存钱分了，又来了，还是3B的一个开局，但这一分EDG并没有太好的经济。<br>' + 
+                'Speaker2: 康康英雄英雄数位先接一个队，又打赢了。等一下等一下二楼窗口要小心，二楼窗口要小心，要小心，好可以。<br>' + 
+                'Speaker1: 刚刚刚刚拿数位，拿到了一波四杀，冠军点出现了，拿到了赛点，谁是大明星？在此刻，EDG终于终于是有这个机会了，终于是有可以终结比赛的机会。<br>' + 
+                'Speaker2: 这一波B长廊的前压真的是向死而生，对，因为是个纯前锋，他们其实是个混起局，他们没有很好的枪械，没有很得心应手的枪械。<br>' + 
+                'Speaker1: 我觉得我们还是要把情绪稍微收一收，先收一收，还有一分。现在TH的状态也是正好三个冠军点。<br>' + 
+                'Speaker2: 康康的冥驹，康康的冥驹给压力了，直接把相信无人机给狙了，但要知道布有终极技能。<br>' + 
+                'Speaker1: 现在看一下双方的终极技能进度，球球其实也有两边的宇宙分裂，连接起来真的不好说。<br>' + 
+                'Speaker6: 现在就是要看个人英雄主义的发挥了，这个时候谁能够站出来，谁就是统治战场的主宰。<br>',
+                audio: [
+                    '../assets/wav/dimensions/two_speaker/6.wav',
+                    '../assets/wav/dimensions/two_speaker/7.wav',
+                    '../assets/wav/dimensions/two_speaker/8.wav',
+                    '../assets/wav/dimensions/two_speaker/9.wav',
+                    '../assets/wav/dimensions/two_speaker/10.wav',
+                    '../assets/wav/dimensions/two_speaker/11.wav',
+                    '../assets/wav/dimensions/two_speaker/12.wav',
+                ],
+                image: '../assets/photo/dimensions/two_speaker/radar-2.png',
+                text: ['Gemini', 'OpenAI', 'Seed-TTS-Podcast', 'SoulX-Podcast', 'VibeVoice', 'ZipVoice Dialogue']
+            }
+        ];
+
+        let currentIndex = 0;
+        const contentContainer = document.querySelector('.content-container');
+        const modelTextContainer = document.querySelector('.model-text-container');
+        const referenceTextElement = document.querySelector('.content-header p');
+        const imageElement = document.querySelector('.img-container2 img');
+
+        function updateContent() {
+            const content = contentList[currentIndex];
+
+            referenceTextElement.innerHTML = content.referenceText;
+
+            modelTextContainer.innerHTML = content.text.map((item, index) => {
+                return `
+                    <div class="model-row">
+                        <p class="model-text">${item}</p>
+                        <div class="audio-container">
+                            <audio controls>
+                                <source src="${content.audio[index]}" type="audio/wav">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            imageElement.src = content.image;
+        }
+
+
+        
+        document.querySelector('.swiper-button-prev').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + contentList.length) % contentList.length;
+            updateContent();
+        });
+
+        document.querySelector('.swiper-button-next').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % contentList.length;
+            updateContent();
+        });
+
+        // Initialize content
+        updateContent();
+    </script>
+</body>
+</html>

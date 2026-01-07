@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech on Scenarios</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Kirang+Haerang&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ranga:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.font.im/css?family=Do+Hyeon" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/sub-style.css">
+  <link rel="stylesheet" href="../assets/css/video.css">
+  <link rel="icon" type="png" href="../assets/photo/logo.ico">
+
+  <style>
+    /* 整个容器 */
+    .content-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding-top: 20px;
+    }
+
+    /* 主要内容容器 */
+    .content-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+      height: auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 5px;
+      transition: box-shadow 0.2s ease-in-out;
+      box-shadow: none;
+    }
+
+    /* 在鼠标悬浮时发光 */
+    .content-right:hover {
+      box-shadow: 0 0 10px 10px;
+    }
+
+    /* 针对不同的标题动态修改 hover 发光颜色 */
+    .content-right.acoustics:hover {
+      box-shadow: 0 0 20px 10px #f1c7d5;
+    }
+
+    .content-right.semantics:hover {
+      box-shadow: 0 0 20px 10px #c0e5eb;
+    }
+
+    .content-right.expressiveness:hover {
+      box-shadow: 0 0 20px 10px #f4f5c3;
+    }
+
+    /* 模型和音频控件容器 */
+    .model-text-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    /* 每个模型名称和音频控件 */
+    .model-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 5px;
+      width: 30%;
+    }
+
+    /* 模型文本样式 */
+    .model-text {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* 音频控件 */
+    .audio-container audio {
+      margin-left: 5px;
+      width: 275px;
+    }
+
+    /* 切换按钮样式 */
+    .swiper-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2em;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.5);
+      padding: 0px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .swiper-button:hover {
+      color: #ffffff;
+      background-color: rgba(58, 56, 56, 0.6);
+    }
+
+    .swiper-button-prev { left: 10px; }
+    .swiper-button-next { right: 10px; }
+
+    /* 内容头部文本容器 */
+    .content-header {
+      background-color: #f0f0f0;
+      width: 100%;
+      padding: 15px;
+      text-align: left;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    .academic-table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 600px; /* 根据需要调整宽度 */
+    margin: 20px auto;
+    font-family: "Times New Roman", serif; /* 学术常用字体 */
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+  }
+
+    /* 顶部和底部的粗线 (LaTeX \toprule 和 \bottomrule) */
+    .academic-table {
+      border-top: 2px solid #000;
+      border-bottom: 2px solid #000;
+    }
+
+    /* 表头下方的细线 (LaTeX \midrule) */
+    .academic-table tr:first-child {
+      border-bottom: 1.2px solid #000;
+    }
+
+    /* 单元格内边距，增加呼吸感 */
+    .academic-table td {
+      padding: 10px 8px;
+    }
+
+    /* 斑马纹 (可选，如果行数非常多可以开启) */
+    /* .academic-table tr:nth-child(even) { background-color: #f9f9f9; } */
+
+    /* 悬停变色 (方便阅读) */
+    .academic-table tr:hover {
+      background-color: #f5f5f5;
+    }
+    .img-container2 {
+      display: flex;
+      justify-content: center;
+      margin-right: 8%;
+      align-items: center;
+      width: 100%;
+      height: 200px; /* 你可以调整高度以适应图片的大小 */
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <h1 class="logo">LFS-Bench</h1>
+    <ul class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../Dimension Page/mono.html">Per-Dimensions</a>
+      <a href="mono.html" class="active">Per-Scenarios</a>
+      <a href="../Ablation.html">Ablation Study</a>
+    </ul>
+  </nav>
+
+  <div class="page-title-bg">
+    <div class="title-content">
+      <h1>Evaluations on Scenarios</h1>
+    </div>
+    <div class="follow">
+      <ul class="follow_list">
+        <li>
+          <a href="https://github.com/LFS-Bench/LFS-bench" target="_blank">
+            <img src="../assets/photo/github.png" alt="">
+          </a>
+          <p style="color:black;">code</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-navbar">
+    <ul class="subnav-links">
+      <a href="mono.html">Speech</a>
+      <a href="two.html" class="active">Dialog</a>
+    </ul>
+  </div>
+
+  <main>
+    <div class="main-container">
+      <div class="content-area">
+        <section id="part1" class="content-section">
+          <div class="content-container">
+            <div class="swiper-button swiper-button-prev">❮</div>
+
+            <div class="content-right acoustics">
+              <h1>Acoustics</h1>
+
+              <div class="content-header">
+                <p>you have some problem.</p>
+              </div>
+
+              <div class="model-text-container">
+                <!-- 初始结构占位，JS 会覆盖 -->
+              </div>
+
+              <div class="img-container2">
+                <img src="../assets/photo/dimensions/mono_speaker/test.png" alt="Model Image">
+              </div>
+            </div>
+
+            <div class="swiper-button swiper-button-next">❯</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const contentList = [
+      {
+        title: "Acoustics",
+        headerLabel: "Reference Text1 [Interview]: <br>",
+        headerText: `
+        <strong>Speaker1:</strong> Thank you so much for being with us. Always great to see you. I'm not sure where we should begin because you have such a broad view of these topics. But I feel like we should start with the biggest question, which is, if you look forward at capability growth from here, where does it come from? Does it come from more scale? Does it come from data work?<br>
+        <strong>Speaker2:</strong> Multiple vectors of progress. I think there is probably a little bit more juice out of the scalability limit on this piece, so hopefully we'll see some progress there. But it's getting really, really difficult. Society's perception of AI has been very skewed by the PR machinery of a handful of companies with amazing PR capabilities. And because that number of companies drove scale as a narrative, people think of scale first as a vector of progress. But I think agentic workflows, the way we build multimodal models, we have a lot of work to build concrete applications. I mean, there are multiple vectors of progress, as well as wild cards like brand new technologies. Like, can diffusion models, which are used to generate images for the most part, will that also work for generating text? I think that's exciting. So I think there'll be multiple ways for AI to make progress.<br>
+        <strong>Speaker1:</strong> You actually came up with the term "agentic AI." What did you mean then?<br>
+        <strong>Speaker2:</strong> So when I decided to start talking about agentic AI, which wasn't a thing when I started to use the term, my team was slightly annoyed at me. One of my team members that I won't name actually said, "Andrew, the world does not need you to make up another term." But I decided to do it anyway, and for whatever reason, it stuck. The reason I started to talk about agentic AI was because a couple of years ago, I saw people would spend a lot of time debating, is this an agent? Is this not an agent? What is an agent? And I felt there's a lot of good work, and there was a spectrum of degrees of agency—where there are highly autonomous agents that could plan, take multiple steps of reasoning, do a lot of stuff by themselves, and then things that were lower degrees of agency, where we're prompting it, we're affecting its output. And I felt like rather than debating is this an agent or not, let's just talk about the degrees of agency and say it's all agentic, so you can spend our time actually building this. So I started to push the term agentic AI. What I did not expect was that several months later, a bunch of marketers would get a hold of this term and use it as a sticker to stick it on everything in sight. And so I think the term agentic AI really took off.<br>
+        <strong>Speaker1:</strong> I feel like the marketing hype has gone insanely fast. But the real business progress has also been rapidly growing, but maybe not as fast as the marketing hype. What do you think are the biggest hype?
+      `,      
+        image: "../assets/photo/scenarios/two_speaker/2.png",
+        models: [
+          {
+            name: "Elevenlab",
+            audio: "../assets/wav/scenarios/two_speaker/acoustic/elevenlabs_two_interview_en_9.wav"
+          },
+          {
+            name: "Gemini",
+            audio: "../assets/wav/scenarios/two_speaker/acoustic/gemini_two_interview_en_9.wav"
+          },
+          {
+            name: "OpenAI",
+            audio: "../assets/wav/scenarios/two_speaker/acoustic/chatgpt_two_interview_en_9.wav"
+          }
+        ]
+      },
+      // 下面这些是示例页：把路径替换成你自己的真实文件即可
+      {
+        title: "Acoustics",
+        headerLabel: "Reference Text2 [Chat]: <br>",
+        headerText: `
+        <strong>Speaker1:</strong> 你最近有去看展览或者博物馆吗？<br>
+        <strong>Speaker2:</strong> 去了，上周末去了美术馆，挺有意思的。<br>
+        <strong>Speaker1:</strong> 哇，展览主题是什么？<br>
+        <strong>Speaker2:</strong> 是现代艺术，主要展示一些新媒体艺术和装置作品。<br>
+        <strong>Speaker1:</strong> 听起来挺酷的，有没有特别喜欢的作品？<br>
+        <strong>Speaker2:</strong> 有一件用光影做的装置，走进去感觉像穿越到另一个空间，很震撼。<br>
+        <strong>Speaker1:</strong> 哇，这种互动式的艺术我也喜欢，能参与进去感觉更深刻。<br>
+        <strong>Speaker2:</strong> 对啊，拍了好多照片，感觉回去还能慢慢回味。<br>
+        <strong>Speaker1:</strong> 我也想去看看，下次你可以带我一起去吗？<br>
+        <strong>Speaker2:</strong> 当然可以，顺便可以去咖啡厅坐坐，聊聊感受。<br>
+        <strong>Speaker1:</strong> 太好了，下次就这么安排，顺便还能拍照留念。<br>
+      `,
+        image: "../assets/photo/scenarios/two_speaker/1.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/two_speaker/acoustic/elevenlabs_two_chat_zh_8.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/two_speaker/acoustic/gemini_two_chat_zh_8.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/two_speaker/acoustic/chatgpt_two_chat_zh_8.wav" }
+        ]
+      },
+      {
+        title: "Semantics",
+        headerLabel: "Reference Text3 [News]: <br>",
+        headerText: `
+        <strong>Speaker1:</strong> Worldwide. This is Bloomberg Surveillance alongside Lisa Brambitz together with Anne-Marie Hauden. I'm Jonathan Farrow. Your equity market on the S&P 500 bouncing back from the biggest one-day loss since September. Equity futures on the S&P 500 positive here by a third of one percent. Brammo, pushback from Chairman Powell. Big earnings coming a little bit later.<br>
+        <strong>Speaker2:</strong> Yeah, basically taking March off the table, maybe, or making it less likely. The market's responding to that. Big tech very much front and focus. And the real question to me is, do we get a more motley picture with the likes of Meta, with the likes of Apple and Amazon reporting after the bell than we did with Microsoft and Google, which put out solid earnings, but people just weren't impressed. Before we talk about tech, we need to talk about the financials. We seem to be at the face of the cycle where we talk about banks we've never heard of before. One in Japan, another in New York. Commercial real estate is something that's been hanging over this market for a long, long time. Are we starting to see a little bit of a reality check on that side of things? So the reality versus the fiction, the fiction that some people might say is, is this another crisis in the making in regional banks? And most people say no. New York Community Bank Corp was an idiosyncratic story with respect to the mix of holdings. That said, you have serious concerns about a reckoning that has not happened in commercial real estate. And those were just exacerbated with the Azora Bank in Japan reporting a 20 percent drop, just seeing a 20 percent drop in their shares as a result of U.S. property losses. So again, it's the shoe that hasn't dropped in commercial property, not necessarily fear.<br>
+        <strong>Speaker1:</strong> Feed-in for Asian markets with a tech seller of driving US stocks to a fourth session of losses. NVIDIA slipping ahead of its third quarter results as Wall Street worries about a potential AI bubble. But the big deals in the sector keep coming. NVIDIA and Microsoft to invest up to $15 billion in Anthropic, which in turn will spend $30 billion on Microsoft computing capacity. And President Trump's grip on Washington shows signs of weakening as the Senate reaches a deal to release the Epstein files after near unanimous House support. Welcome to the Bloomberg New Economy Forum 2025, thriving in an age of extremes. Of course, we have seen US tariffs at the highest levels since the 1940s at a time when we also have the ongoing US-China tech rivalry. What's your take on these intertwined dynamics?<br>
+        <strong>Speaker2:</strong> And of course, right now, the focus and the hottest topic, artificial intelligence. And the gap is being fast closed by the Chinese side. But there are these lingering questions. Is there only one form of AI leadership? And what does the AI future look like? As you talked about tariffs, it's also this backdrop of, is it too soon, about, you know, 10 months into the presidency, to tell how the Trump policies are actually reshaping the global trading order? Is it really beneficial to the US in terms of this pecking order?<br>
+        <strong>Speaker1:</strong> Stories this hour. Asian stocks set to extend Wall Street losses as investors shun risk ahead of Nvidia's earnings and the US jobs report. The S&P 500 falling below its 50-day moving average while Bitcoin traders position for more pain. Amazon joins a spree of jumbo debt sales from tech firms racing to fund AI infrastructure, raising $15 billion. Plus, bond king Jeff Gunlock tells Bloomberg he's loading up on cash and staying away from private credit over what he calls garbage lending.<br>
+      `,
+        image: "../assets/photo/scenarios/two_speaker/3.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/two_speaker/semantic/elevenlabs_two_news_en_3.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/two_speaker/semantic/gemini_two_news_en_3.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/two_speaker/semantic/chatgpt_two_news_en_3.wav" }
+        ]
+      },
+      {
+        title: "Semantics",
+        headerLabel: "Reference Text4 [Popular Science]: <br>",
+        headerText: `
+        <strong>Speaker1:</strong> 对，这只龙是怎么发现的？<br>
+        <strong>Speaker2:</strong> 呃，这个龙是我们在蒙大拿美国，我们跟那边的私人农场和农场主合作，在他们的土地上面挖掘，是我们这边找恐龙。其实是一个很随机的。<br>
+        <strong>Speaker1:</strong> 哦，是随机找的？<br>
+        <strong>Speaker2:</strong> 我们不知道地底下哪里有恐龙，但是我们知道在哪一个层位发现恐龙几率比较高。就是我们会找到对的层位——白垩纪时期的沉积地层。然后在那个地层，我们每天会用走路去找。<br>
+        <strong>Speaker2:</strong> 然后找到是它的这个头盾的钝角，露出一点点，就露出在土壤上面。对，然后乍看会以为是一根骨头露出来。发现了以后就会往下挖掘，越挖那个范围越大。<br>
+        <strong>Speaker2:</strong> 然后后来就知道它是一个完整的头。那发现完了以后，尽可能把周遭的沉积岩跟头骨一起保存下来，用石膏把它包起来。石膏包了以后，你就可以往下继续挖，一直挖到下面，再继续往下包覆。后来它就整个被包起来，你就可以拿起来。拿起来以后我们就把它打包。<br>
+      `,
+        image: "../assets/photo/scenarios/two_speaker/4.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/two_speaker/semantic/elevenlabs_two_popular_science_zh_9.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/two_speaker/semantic/gemini_two_popular_science_zh_9.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/two_speaker/semantic/chatgpt_two_popular_science_zh_9.wav" }
+        ]
+      },
+      {
+        title: "Expressiveness",
+        headerLabel: "Reference Text5 [Sports]: <br>",
+        headerText: `
+        <strong>speaker1:</strong> And here we go, under ninety seconds left, tied at 102. The arena is shaking, the crowd is on its feet, and Matthews brings the ball across half court with purpose.<br>
+        <strong>speaker2:</strong> He’s been the heartbeat of this team tonight—27 points, 8 assists, and absolutely fearless attacking the rim. Let’s see if he’s got one more big moment in him.<br>
+        <strong>speaker1:</strong> High screen from Carter—Matthews uses it, snakes to his left, hesitation—oh he’s got the defender leaning! Pull-up from midrange—<br>
+        <strong>speaker2:</strong> Off the iron! Rebound tipped… Carter snatches it! Second-chance opportunity, huge for the home team!<br>
+        <strong>speaker1:</strong> Shot clock resets. Carter backing down—power dribble—spins baseline—<br>
+        <strong>speaker2:</strong> Oh my goodness! The reverse finish! What body control! And listen to this place—they’re exploding!<br>
+        <strong>speaker1:</strong> 104–102, just over 40 seconds left. Here comes Denver the other way. Lopez calling for the iso on the right wing.<br>
+        <strong>speaker2:</strong> He’s been cold all quarter, but superstars take these shots. Ten on the clock—Lopez drives, attacks the seam—kicks to the corner—Burke for three!<br>
+        <strong>speaker1:</strong> Short! Long rebound—scramble on the floor—who wants it?<br>
+        <strong>speaker2:</strong> Matthews dives! What a hustle play! He gets the timeout! That might be the play of the night!<br>
+        <strong>speaker1:</strong> Unreal effort. This place is thunderous. And now the pressure flips to Denver—they need a stop here or this game might be over.<br>
+      `,
+        image: "../assets/photo/scenarios/two_speaker/5.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/two_speaker/expressive/elevenlabs_two_sports_en_2.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/two_speaker/expressive/gemini_two_sports_en_2.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/two_speaker/expressive/chatgpt_two_sports_en_2.wav" }
+        ]
+      },
+      {
+        title: "Expressiveness",
+        headerLabel: "Reference Text6 [Drama]: <br>",
+        headerText: `
+        <strong>Speaker1:</strong> 嗯，就告诉二哥你回来。<br>
+        <strong>Speaker2:</strong> 你又想捉弄谁？<br>
+        <strong>Speaker1:</strong> 不，我要告诉你一件非常重要的事。<br>
+        <strong>Speaker2:</strong> 什么？<br>
+        <strong>Speaker1:</strong> 我爱了一个人。<br>
+        <strong>Speaker2:</strong> 谁？<br>
+        <strong>Speaker1:</strong> 世界上最可爱的。<br>
+        <strong>Speaker2:</strong> 那当然，可是是谁呀？<br>
+        <strong>Speaker1:</strong> 不在我们的亲戚里。<br>
+        <strong>Speaker2:</strong> 那么会是谁呢？<br>
+        <strong>Speaker1:</strong> 回头我告诉你。你知道么，泥土里生米，水底下出珍珠，沙漠里埋黄金。天哪，这都是造物的恩惠呀！<br>
+        <strong>Speaker1:</strong> 我活着，我活着，我在活着！鸣凤！<br>
+        <strong>Speaker2:</strong> 我在这儿呢。<br>
+        <strong>Speaker1:</strong> 好长的时间，你不知道我多想念你。<br>
+        <strong>Speaker2:</strong> 您还要去钓鱼么？<br>
+        <strong>Speaker1:</strong> 不，不，先不。我要在月亮下面看看你。<br>
+      `,
+        image: "../assets/photo/scenarios/two_speaker/6.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/two_speaker/expressive/elevenlabs_two_drama_zh_1.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/two_speaker/expressive/gemini_two_drama_zh_1.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/two_speaker/expressive/chatgpt_two_drama_zh_1.wav" }
+        ]
+      }
+    ];
+
+    let currentIndex = 0;
+
+    const modelTextContainer = document.querySelector(".model-text-container");
+    const imageElement = document.querySelector(".img-container2 img");
+    const contentRight = document.querySelector(".content-right");
+
+    // 可选：切页时暂停所有音频，避免多个同时播放
+    function pauseAllAudios() {
+      document.querySelectorAll("audio").forEach(a => {
+        a.pause();
+        a.currentTime = 0;
+      });
+    }
+
+    function updateGlowClass(title) {
+      contentRight.classList.remove("acoustics", "semantics", "expressiveness");
+      if (title === "Acoustics") contentRight.classList.add("acoustics");
+      if (title === "Semantics") contentRight.classList.add("semantics");
+      if (title === "Expressiveness") contentRight.classList.add("expressiveness");
+    }
+
+    function updateContent() {
+      pauseAllAudios();
+
+      const content = contentList[currentIndex];
+
+      // 标题 & 文本
+      document.querySelector(".content-right h1").textContent = content.title;
+      const headerP = document.querySelector(".content-header p");
+      headerP.innerHTML = `<strong>${content.headerLabel}</strong> ${content.headerText}`;
+
+      // 三个模型：各自音频
+      modelTextContainer.innerHTML = content.models.map((m) => {
+        return `
+          <div class="model-row">
+            <p class="model-text">${m.name}</p>
+            <div class="audio-container">
+              <audio controls preload="none">
+                <source src="${m.audio}" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // 图片
+      imageElement.src = content.image;
+
+      // 发光 class
+      updateGlowClass(content.title);
+    }
+
+    document.querySelector(".swiper-button-prev").addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + contentList.length) % contentList.length;
+      updateContent();
+    });
+
+    document.querySelector(".swiper-button-next").addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % contentList.length;
+      updateContent();
+    });
+
+    // 初始化
+    updateContent();
+  </script>
+</body>
+</html>

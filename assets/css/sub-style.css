@@ -1,0 +1,67 @@
+        .sub-navbar {
+            display: flex;
+            justify-content: center;
+            background-color: white;
+            padding: 10px 0;
+            margin-top: 5%;
+        }
+        .subnav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 270px;
+        }
+        .subnav-links a {
+            text-decoration: none;
+            color: black;
+            font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            border-radius: 5px;
+        }
+        .subnav-links a:hover {
+            font-weight: bolder;
+            border-bottom: rgb(87, 128, 216) 3px solid;
+        }
+
+        .subnav-links a.active {
+            font-weight: bolder;
+            border-bottom: rgb(87, 128, 216) 3px solid;
+        }
+
+        .subnav-links a:not(:last-child)::after {
+            content: "|";
+            color: black !important;
+            font-weight: normal !important;
+            position: absolute;
+            margin-left: 125px; /* 250px的一半 */
+        }
+
+        .sub-navbar.fixed {
+            position: fixed;
+            margin-top: 4.5%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .hint-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .hint-container img {
+            max-width: 20px;
+            height: auto;
+            margin: 0 10px;
+        }
+        .hint-container p {
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: #333;
+        }

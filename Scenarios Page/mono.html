@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech on Scenarios</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Kirang+Haerang&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ranga:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.font.im/css?family=Do+Hyeon" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/sub-style.css">
+  <link rel="stylesheet" href="../assets/css/video.css">
+  <link rel="icon" type="png" href="../assets/photo/logo.ico">
+
+  <style>
+    /* 整个容器 */
+    .content-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding-top: 20px;
+    }
+
+    /* 主要内容容器 */
+    .content-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+      height: auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 5px;
+      transition: box-shadow 0.2s ease-in-out;
+      box-shadow: none;
+    }
+
+    /* 在鼠标悬浮时发光 */
+    .content-right:hover {
+      box-shadow: 0 0 10px 10px;
+    }
+
+    /* 针对不同的标题动态修改 hover 发光颜色 */
+    .content-right.acoustics:hover {
+      box-shadow: 0 0 20px 10px #f1c7d5;
+    }
+
+    .content-right.semantics:hover {
+      box-shadow: 0 0 20px 10px #c0e5eb;
+    }
+
+    .content-right.expressiveness:hover {
+      box-shadow: 0 0 20px 10px #f4f5c3;
+    }
+
+    /* 模型和音频控件容器 */
+    .model-text-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    /* 每个模型名称和音频控件 */
+    .model-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 5px;
+      width: 30%;
+    }
+
+    /* 模型文本样式 */
+    .model-text {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* 音频控件 */
+    .audio-container audio {
+      margin-left: 5px;
+      width: 275px;
+    }
+
+    /* 切换按钮样式 */
+    .swiper-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2em;
+      color: #333;
+      background-color: rgba(255, 255, 255, 0.5);
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .swiper-button:hover {
+      color: #ffffff;
+      background-color: rgba(58, 56, 56, 0.6);
+    }
+
+    .swiper-button-prev { left: 10px; }
+    .swiper-button-next { right: 10px; }
+
+    /* 内容头部文本容器 */
+    .content-header {
+      background-color: #f0f0f0;
+      width: 100%;
+      padding: 15px;
+      text-align: left;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    .img-container2 {
+      display: flex;
+      justify-content: center;
+      margin-right: 8%;
+      align-items: center;
+      width: 100%;
+      height: 200px; /* 你可以调整高度以适应图片的大小 */
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <h1 class="logo">LFS-Bench</h1>
+    <ul class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../Dimension Page/mono.html">Per-Dimensions</a>
+      <a href="mono.html" class="active">Per-Scenarios</a>
+      <a href="../Ablation.html">Ablation Study</a>
+    </ul>
+  </nav>
+
+  <div class="page-title-bg">
+    <div class="title-content">
+      <h1>Evaluations on Scenarios</h1>
+    </div>
+    <div class="follow">
+      <ul class="follow_list">
+        <li>
+          <a href="https://github.com/LFS-Bench/LFS-bench" target="_blank">
+            <img src="../assets/photo/github.png" alt="">
+          </a>
+          <p style="color:black;">code</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-navbar">
+    <ul class="subnav-links">
+      <a href="mono.html" class="active">Speech</a>
+      <a href="two.html">Dialog</a>
+    </ul>
+  </div>
+
+  <main>
+    <div class="main-container">
+      <div class="content-area">
+        <section id="part1" class="content-section">
+          <div class="content-container">
+            <div class="swiper-button swiper-button-prev">❮</div>
+
+            <div class="content-right acoustics">
+              <h1>Acoustics</h1>
+
+              <div class="content-header">
+                <p>you have some problem.</p>
+              </div>
+
+              <div class="model-text-container">
+                <!-- 初始结构占位，JS 会覆盖 -->
+              </div>
+
+              <div class="img-container2">
+                <img src="../assets/photo/dimensions/mono_speaker/test.png" alt="Model Image">
+              </div>
+            </div>
+
+            <div class="swiper-button swiper-button-next">❯</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const contentList = [
+      {
+        title: "Acoustics",
+        headerLabel: "Reference Text1 [Podcast]: <br>",
+        headerText: "I don’t know what it is about me, but I just like thinking about a cute boy all the time. I always need some sort of crush — a celebrity, a random barista, anything. I’m the type of person who always has to have a crush. That leads me to dating a lot, because once I fixate on a crush and they like me back, I feel like I have to date them since I’ve had the crush for a while. So, I think I date often because I’m constantly having crushes. Also, I don’t enjoy casual hookups much. If I want to be physical with a guy, I prefer to be in a relationship. I’m not particularly driven by sex.",
+        image: "../assets/photo/scenarios/mono_speaker/2.png",
+        models: [
+          {
+            name: "Elevenlab",
+            audio: "../assets/wav/scenarios/mono_speaker/acoustic/elevenlabs_mono_podcast_en_3.wav"
+          },
+          {
+            name: "Gemini",
+            audio: "../assets/wav/scenarios/mono_speaker/acoustic/gemini_mono_podcast_en_3.wav"
+          },
+          {
+            name: "OpenAI",
+            audio: "../assets/wav/scenarios/mono_speaker/acoustic/chatgpt_mono_podcast_en_3.wav"
+          }
+        ]
+      },
+      // 下面这些是示例页：把路径替换成你自己的真实文件即可
+      {
+        title: "Acoustics",
+        headerLabel: "Reference Text2 [Audiobook]: <br>",
+        headerText: "第一次见到心理咨询师，蛤蟆先生问他：“你认为我会好起来吗？” 咨询师站定了，直视着蛤蟆先生的眼睛说：“如果我不相信每个人都有能力变得更好，我就不会做这份工作了。” 前情与导读：蛤蟆本是一个热情、时尚，又爱冒险的家伙，惹出过不少麻烦和笑话。可他现在陷入抑郁，不能自拔。他的朋友们决定出手相助，其中包括智慧又威严的獾，关心朋友但有点唠叨的河鼠，还有体贴善良的鼹鼠。他们商量来商量去，决定督促蛤蟆重视这个问题，并带他去接受心理咨询。于是，本书故事就此展开。虽然书中人物的基本设定来自英国作家肯尼斯・格雷厄姆的经典著作《柳林风声》，但只是借用了《柳林风声》的人物形象。",
+        image: "../assets/photo/scenarios/mono_speaker/1.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/mono_speaker/acoustic/elevenlabs_mono_audiobook_zh_7.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/mono_speaker/acoustic/gemini_mono_audiobook_zh_7.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/mono_speaker/acoustic/chatgpt_mono_audiobook_zh_7.wav" }
+        ]
+      },
+      {
+        title: "Semantics",
+        headerLabel: "Reference Text3 [Lesson]: <br>",
+        headerText: "This third party may not be trustworthy may not be trustworthy. For example, they have the uhmachine learning as a service provider. This service provider um is responsible for training, the model for the user, for the user, okay so the maliciousservice provider may manipulate the data and the model to insert a back door.okay So this one this one, this um a tax scenario is also very stealthy because it's hard for the user to detectthat the trained modelis actually backdoor. because Because when we havedescribed before the features of the back door attacks, is that the back door model will performsatisfactory on the clean data set. Clean data said. So usually after the outsourcing service,the user is able tofor example, checkthe model performance. However, usually the user only halfthe um clean data set clean data set and the back door model will performideally, normally on the clean data set, so the user may not may not figure out any of normality of this model of the melody. Andthis backdrop will only be activated by the triggerof which the userhas no knowledge ofbecause the userhim or herself does not design the trigger. The trigger is designed by the malicious service provider.",
+        image: "../assets/photo/scenarios/mono_speaker/3.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/mono_speaker/semantic/elevenlabs_mono_lesson_en_1.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/mono_speaker/semantic/gemini_mono_lesson_en_1.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/mono_speaker/semantic/chatgpt_mono_lesson_en_1.wav" }
+        ]
+      },
+      {
+        title: "Semantics",
+        headerLabel: "Reference Text4 [News]: <br>",
+        headerText: "寒潮南下之后，干燥的偏北气流占据上风。今天午后，中东部的很多地方空气相对湿度都非常低，像内蒙古、甘肃的一些地方，相对湿度还不足10%，就连华南的个别地方也降到了30%以下。像这种南北方都天干物燥的天气，未来一段时间还将会持续。其中今天晚上到明天，雨雪将会零散地分布在西南、东北等地，下得不大，其余绝大多数地方都是雨雪稀少、晴天当道的格局。特别是内蒙古中东部、西藏西部等地，还会伴随着五级以上的风，干燥的感觉愈发明显。不只是明天，放眼今后十天，中东部都将会以晴为主，几乎没有什么像样的降水。这也意味着干燥的情况将不会有明显改善，而这样的天气也会对人体健康产生不利影响。一定要注意多喝水，增加室内湿度。同时，干燥还会带来火灾隐患，室外要避免使用明火，室内也要注意用火用电安全。晴朗干燥的天气也会加大一天中的气温差异，明后天全国大部分地区昼夜温差将会保持在10度以上，西部的不少地方还将会超过15度。尽管白天暖意回归，但是一早一晚依旧天寒地冻，早出晚归还是要特别注意保暖。",
+        image: "../assets/photo/scenarios/mono_speaker/4.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/mono_speaker/semantic/elevenlabs_mono_news_zh_15.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/mono_speaker/semantic/gemini_mono_news_zh_15.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/mono_speaker/semantic/chatgpt_mono_news_zh_15.wav" }
+        ]
+      },
+      {
+        title: "Expressiveness",
+        headerLabel: "Reference Text5 [Speech]: <br>",
+        headerText: "Gopal. When I was 27 years old, I left a very demanding job in management consulting for a job that was even more demanding, teaching. I went to teach 7th graders math in the New York City public schools. And like any teacher, I made quizzes and tests. I gave out homework assignments. When the work came back, I calculated grades. What struck me was that IQ was not the only difference between my best and my worst students. Some of my strongest performers did not have stratospheric IQ scores. Some of my smartest kids weren't doing so well. And that got me thinking. The kinds of things you need to learn in 7th grade math, sure, they're hard. Ratios, decimals, the area of a parallelogram. But these concepts are not impossible. And I was firmly convinced that every one of my students could learn the material if they worked hard and long enough. After several more years of teaching, I came to the conclusion that what we need in education is a much better understanding of students and learning from a motivational perspective, from a psychological perspective. In education, the one thing we know how to measure best is IQ. But what if doing well in school and in life depends on much more than your ability to learn quickly and easily? So I left the classroom, and I went to graduate school to become a psychologist. And there were a lot of real students who got me to do that. So I went to graduate school. I was an adult in life, and I got to see my first question there, and I've been here in the same class, wishing that to even learn how to measure headed and aviation countless pencement.",
+        image: "../assets/photo/scenarios/mono_speaker/6.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/mono_speaker/expressive/elevenlabs_mono_speech_en_18.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/mono_speaker/expressive/gemini_mono_speech_en_18.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/mono_speaker/expressive/chatgpt_mono_speech_en_18.wav" }
+        ]
+      },
+      {
+        title: "Expressiveness",
+        headerLabel: "Reference Text6 [Talk Show]: <br>",
+        headerText: "而且色盲这个病对我可能生活造成最大的一个影响，就是我过马路的时候是分不清红绿灯的，我第一次过马路看到红绿灯，我还特别奇怪，我还去问过我们老师，我说老师啊，为什么红绿灯这么重要的东西，要用两种这么不容易区分的颜色，那脑子都蒙了，说因为这个就是人类最容易区分的颜色，而且我妈知道我是红绿色盲的，我就一直跟我说，说你过马路的时候呀，一定要别人过的时候你再过，但这个时候就有一个问题，我总有自己过的时候吧，每次这个时候我都要在那里等，等一个人来，而且这个时候如果刚好是红灯的话，非常合理，我就在那里等红灯，但如果是绿灯的话，他会发现我也不走，但一旦他从我身边经过，我就会立马跟上去。",
+        image: "../assets/photo/scenarios/mono_speaker/5.png",
+        models: [
+          { name: "Elevenlab", audio: "../assets/wav/scenarios/mono_speaker/expressive/elevenlabs_mono_talk_show_zh_8.wav" },
+          { name: "Gemini",    audio: "../assets/wav/scenarios/mono_speaker/expressive/gemini_mono_talk_show_zh_8.wav" },
+          { name: "OpenAI",    audio: "../assets/wav/scenarios/mono_speaker/expressive/openai_mono_talk_show_zh_8.wav" }
+        ]
+      }
+    ];
+
+    let currentIndex = 0;
+
+    const modelTextContainer = document.querySelector(".model-text-container");
+    const imageElement = document.querySelector(".img-container2 img");
+    const contentRight = document.querySelector(".content-right");
+
+    // 可选：切页时暂停所有音频，避免多个同时播放
+    function pauseAllAudios() {
+      document.querySelectorAll("audio").forEach(a => {
+        a.pause();
+        a.currentTime = 0;
+      });
+    }
+
+    function updateGlowClass(title) {
+      contentRight.classList.remove("acoustics", "semantics", "expressiveness");
+      if (title === "Acoustics") contentRight.classList.add("acoustics");
+      if (title === "Semantics") contentRight.classList.add("semantics");
+      if (title === "Expressiveness") contentRight.classList.add("expressiveness");
+    }
+
+    function updateContent() {
+      pauseAllAudios();
+
+      const content = contentList[currentIndex];
+
+      // 标题 & 文本
+        document.querySelector(".content-right h1").textContent = content.title;
+        const headerP = document.querySelector(".content-header p");
+         headerP.innerHTML = `<strong>${content.headerLabel}</strong> ${content.headerText}`;
+
+      // 三个模型：各自音频
+      modelTextContainer.innerHTML = content.models.map((m) => {
+        return `
+          <div class="model-row">
+            <p class="model-text">${m.name}</p>
+            <div class="audio-container">
+              <audio controls preload="none">
+                <source src="${m.audio}" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // 图片
+      imageElement.src = content.image;
+
+      // 发光 class
+      updateGlowClass(content.title);
+    }
+
+    document.querySelector(".swiper-button-prev").addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + contentList.length) % contentList.length;
+      updateContent();
+    });
+
+    document.querySelector(".swiper-button-next").addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % contentList.length;
+      updateContent();
+    });
+
+    // 初始化
+    updateContent();
+  </script>
+</body>
+</html>
